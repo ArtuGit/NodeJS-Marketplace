@@ -2,10 +2,11 @@ name: nodejs-shop-demo
 recipe: mean
 config:
   node: 14
+  globals:
+    pm2: latest
   build:
     - npm install
   command: npm run test
   database: mysql
-  globals: []
   port: '3000'
   ssl: false
