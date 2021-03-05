@@ -10,3 +10,7 @@ config:
   database: mysql
   port: '3000'
   ssl: false
+
+services:
+  database:
+    portforward: 3307
