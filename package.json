@@ -5,10 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "pm2 start app.js --watch",
-    "start": "pm2 start app.js",
-    "stop": "pm2 stop app.js",
-    "start2": "node app.js"
+    "dev": "pm2 start pm2-process.json",
+    "start": "node app.js"
   },
   "author": "Artu",
   "license": "ISC",
