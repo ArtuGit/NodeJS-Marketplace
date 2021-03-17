@@ -172,6 +172,7 @@ exports.getCheckout = (req, res, next) => {
       });
     })
     .then(session => {
+      console.log(session)
       res.render('shop/checkout', {
         path: '/checkout',
         pageTitle: 'Checkout',
@@ -181,6 +182,7 @@ exports.getCheckout = (req, res, next) => {
       });
     })
     .catch(err => {
+      console.error(err);
       const error = new Error(err);
       error.httpStatusCode = 500;
       return next(error);
