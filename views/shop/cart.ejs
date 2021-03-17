@@ -1,26 +1,28 @@
 <%- include('../includes/head.ejs') %>
-    <link rel="stylesheet" href="/css/cart.css">
-    </head>
+<link rel="stylesheet" href="/css/cart.css">
+</head>
 
-    <body>
-        <%- include('../includes/navigation.ejs') %>
-        <main>
-            <% if (products.length > 0) { %>
-                <ul class="cart__item-list">
-                    <% products.forEach(p => { %>
-                        <li class="cart__item">
-                            <h1><%= p.productId.title %></h1>
-                            <h2>Quantity: <%= p.quantity %></h2>
-                            <form action="/cart-delete-item" method="POST">
-                                <input type="hidden" value="<%= p.productId._id %>" name="productId">
-                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                <button class="btn danger" type="submit">Delete</button>
-                            </form>
-                        </li>
-                    <% }) %>
-                </ul>
-                <hr>
-                <div class="centered">
+<body>
+<%- include('../includes/navigation.ejs') %>
+<main>
+    <% if (products.length > 0) { %>
+        <ul class="cart__item-list">
+            <% products.forEach(p => { %>
+                <li class="cart__item">
+                    <h2><%= p.productId.title %></h2>
+                    <h4>Price: <%= p.productId.price %></h4>
+                    <h4>Quantity: <%= p.quantity %></h4>
+                    <h2>Sum: <%= p.productId.price * p.quantity %></h2>
+                    <form action="/cart-delete-item" method="POST">
+                        <input type="hidden" value="<%= p.productId._id %>" name="productId">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <button class="btn danger" type="submit">Delete</button>
+                    </form>
+                </li>
+            <% }) %>
+        </ul>
+        <hr>
+        <div class="centered">
                     <!--<form action="/create-order" method="POST">
                         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                         <button type="submit" class="btn">Order Now!</button>
