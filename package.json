@@ -11,7 +11,13 @@
     "stop-pm2": "pm2 stop pm2-process.json",
     "start-n": "node app.js"
   },
-  "author": "Artu",
+  "author": "Maximilian Schwarzmüller",
+  "contributors": [
+    {
+      "name": "Artu",
+      "url": "https://github.com/ArtuGit"
+    }
+  ],
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^1.18.3"
