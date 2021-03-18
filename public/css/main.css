@@ -251,6 +251,13 @@ form {
   color: red;
 }
 
+.user-message--info {
+  margin-top: 2rem;
+  border-color: green;
+  background: #98BB98;
+  color: #008000;
+}
+
 .pagination {
   margin-top: 2rem;
   text-align: center;

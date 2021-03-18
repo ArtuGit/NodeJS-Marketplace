@@ -22,9 +22,16 @@ exports.getLogin = (req, res, next) => {
   } else {
     message = null;
   }
+  let infoMessage = req.flash('info');
+  if (infoMessage.length > 0) {
+    infoMessage = infoMessage[0];
+  } else {
+    infoMessage = null;
+  }
   res.render('auth/login', {
     path: '/login',
     pageTitle: 'Login',
+    infoMessage: infoMessage,
     errorMessage: message,
     oldInput: {
       email: '',
@@ -151,6 +158,7 @@ exports.postSignup = (req, res, next) => {
       return user.save();
     })
     .then(result => {
+      req.flash('info', 'You are registered successfully. Please login.');
       res.redirect('/login');
       return transporter.sendMail({
         to: email,
@@ -174,16 +182,16 @@ exports.postLogout = (req, res, next) => {
 };
 
 exports.getReset = (req, res, next) => {
-  let message = req.flash('error');
-  if (message.length > 0) {
-    message = message[0];
+  let errorMessage = req.flash('error');
+  if (errorMessage.length > 0) {
+    errorMessage = errorMessage[0];
   } else {
-    message = null;
+    errorMessage = null;
   }
   res.render('auth/reset', {
     path: '/reset',
     pageTitle: 'Reset Password',
-    errorMessage: message
+    errorMessage: errorMessage,
   });
 };
 
@@ -206,7 +214,6 @@ exports.postReset = (req, res, next) => {
       })
       .then(result => {
         const baseURL = req.protocol + '://' + req.get('host');
-        res.redirect('/');
         transporter.sendMail({
           to: req.body.email,
           from: 'demo@itcross.dev',
@@ -216,6 +223,8 @@ exports.postReset = (req, res, next) => {
             <p>Click this <a href="${baseURL}/reset/${token}">link</a> to set a new password.</p>
           `
         });
+        req.flash('info', 'Password has been reset. Check your email.');
+        res.redirect('/');
       })
       .catch(err => {
         const error = new Error(err);
@@ -272,6 +281,7 @@ exports.postNewPassword = (req, res, next) => {
       return resetUser.save();
     })
     .then(result => {
+      req.flash('info', 'The password has been updated. Please login.');
       res.redirect('/login');
     })
     .catch(err => {

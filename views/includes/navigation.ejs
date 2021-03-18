@@ -88,6 +88,10 @@
     </ul>
 </nav>
 
+<% if (typeof infoMessage !== 'undefined' && infoMessage ) { %>
+    <div class="user-message user-message--info"><%= infoMessage %></div>
+<% } %>
+
 <% if (pageTitle) { %>
     <h1 class="centered"><%= pageTitle %></h1>
 <% } %>

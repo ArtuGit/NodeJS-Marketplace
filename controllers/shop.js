@@ -62,6 +62,13 @@ exports.getProduct = (req, res, next) => {
 };
 
 exports.getIndex = (req, res, next) => {
+  let infoMessage = req.flash('info');
+  if (infoMessage.length > 0) {
+    infoMessage = infoMessage[0];
+  } else {
+    infoMessage = null;
+  }
+
   const page = +req.query.page || 1;
   let totalItems;
 
@@ -83,7 +90,8 @@ exports.getIndex = (req, res, next) => {
         hasPreviousPage: page > 1,
         nextPage: page + 1,
         previousPage: page - 1,
-        lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE)
+        lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE),
+        infoMessage: infoMessage
       });
     })
     .catch(err => {
@@ -144,6 +152,12 @@ exports.postCartDeleteProduct = (req, res, next) => {
 };
 
 exports.getCheckout = (req, res, next) => {
+  let infoMessage = req.flash('info');
+  if (infoMessage.length > 0) {
+    infoMessage = infoMessage[0];
+  } else {
+    infoMessage = null;
+  }
   let products;
   let total = 0;
   req.user
@@ -177,7 +191,7 @@ exports.getCheckout = (req, res, next) => {
         pageTitle: 'Checkout',
         products: products,
         totalSum: total,
-        sessionId: session.id
+        sessionId: session.id,
       });
     })
     .catch(err => {
