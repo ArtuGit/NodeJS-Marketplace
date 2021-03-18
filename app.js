@@ -1,3 +1,4 @@
+require('dotenv').config()
 const path = require('path');
 
 const express = require('express');
@@ -12,7 +13,7 @@ const multer = require('multer');
 const errorController = require('./controllers/error');
 const User = require('./models/user');
 
-const MONGODB_URI = 'mongodb://database:27017/mean';
+const MONGODB_URI = process.env.mongoDB_App;
 
 const app = express();
 const store = new MongoDBStore({
