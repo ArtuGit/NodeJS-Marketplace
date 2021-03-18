@@ -205,6 +205,7 @@ exports.postReset = (req, res, next) => {
         return user.save();
       })
       .then(result => {
+        const baseURL = req.protocol + '://' + req.get('host');
         res.redirect('/');
         transporter.sendMail({
           to: req.body.email,
@@ -212,7 +213,7 @@ exports.postReset = (req, res, next) => {
           subject: 'Password reset',
           html: `
             <p>You requested a password reset</p>
-            <p>Click this <a href="http://localhost:3000/reset/${token}">link</a> to set a new password.</p>
+            <p>Click this <a href="${baseURL}/reset/${token}">link</a> to set a new password.</p>
           `
         });
       })
