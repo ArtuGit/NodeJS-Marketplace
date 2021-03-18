@@ -54,6 +54,7 @@ exports.getSignup = (req, res, next) => {
     errorMessage: message,
     oldInput: {
       email: '',
+      userName: '',
       password: '',
       confirmPassword: ''
     },
@@ -128,6 +129,7 @@ exports.postLogin = (req, res, next) => {
 };
 
 exports.postSignup = (req, res, next) => {
+  const userName = req.body.userName;
   const email = req.body.email;
   const password = req.body.password;
 
@@ -139,6 +141,7 @@ exports.postSignup = (req, res, next) => {
       pageTitle: 'Signup',
       errorMessage: errors.array()[0].msg,
       oldInput: {
+        userName: userName,
         email: email,
         password: password,
         confirmPassword: req.body.confirmPassword
@@ -151,9 +154,10 @@ exports.postSignup = (req, res, next) => {
     .hash(password, 12)
     .then(hashedPassword => {
       const user = new User({
+        userName: userName,
         email: email,
         password: hashedPassword,
-        cart: { items: [] }
+        cart: {items: []}
       });
       return user.save();
     })
@@ -164,7 +168,7 @@ exports.postSignup = (req, res, next) => {
         to: email,
         from: 'demo@itcross.dev',
         subject: 'Signup succeeded!',
-        html: '<h1>You successfully signed up!</h1>'
+        html: `<h1>You (${userName}) successfully signed up!</h1>`
       });
     })
     .catch(err => {

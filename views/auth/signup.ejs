@@ -4,24 +4,33 @@
 </head>
 
 <body>
-   <%- include('../includes/navigation.ejs') %>
+<%- include('../includes/navigation.ejs') %>
 
-    <main>
-        <% if (errorMessage) { %>
-            <div class="user-message user-message--error"><%= errorMessage %></div>
-        <% } %>
-        <form class="login-form" action="/signup" method="POST" novalidate>
-            <div class="form-control">
-                <label for="email">E-Mail</label>
-                <input 
+<main>
+    <% if (errorMessage) { %>
+        <div class="user-message user-message--error"><%= errorMessage %></div>
+    <% } %>
+    <form class="login-form" action="/signup" method="POST" novalidate>
+        <div class="form-control">
+            <label for="userName">Username</label>
+            <input
+                    class="<%= validationErrors.find(e => e.param === 'userName') ? 'invalid' : '' %>"
+                    type="text"
+                    name="userName"
+                    id="userName"
+                    value="<%= oldInput.userName %>">
+        </div>
+        <div class="form-control">
+            <label for="email">E-Mail</label>
+            <input
                     class="<%= validationErrors.find(e => e.param === 'email') ? 'invalid' : '' %>"
-                    type="email" 
-                    name="email" 
-                    id="email" 
+                    type="email"
+                    name="email"
+                    id="email"
                     value="<%= oldInput.email %>">
-            </div>
-            <div class="form-control">
-                <label for="password">Password</label>
+        </div>
+        <div class="form-control">
+            <label for="password">Password</label>
                 <input 
                     class="<%= validationErrors.find(e => e.param === 'password') ? 'invalid' : '' %>"
                     type="password" 
