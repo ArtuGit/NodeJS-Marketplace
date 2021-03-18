@@ -109,8 +109,22 @@ app.use((error, req, res, next) => {
   });
 });
 
+const options = {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  autoIndex: true,
+  keepAlive: true,
+  poolSize: 10,
+  bufferMaxEntries: 0,
+  connectTimeoutMS: 10000,
+  socketTimeoutMS: 45000,
+  family: 4, // Use IPv4, skip trying IPv6
+  useFindAndModify: false,
+  useUnifiedTopology: true
+}
+
 mongoose
-  .connect(MONGODB_URI)
+  .connect(MONGODB_URI, options)
   .then(result => {
     app.listen(process.env.PORT || 3000);
   })
