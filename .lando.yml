@@ -2,15 +2,7 @@ name: nodejs-shop-demo
 recipe: mean
 config:
   node: 14
-  globals:
-    pm2: latest
   build:
     - npm install
-  command: npm run test
-  database: mongo
   port: '3000'
   ssl: false
-
-services:
-  database:
-    portforward: 27018
