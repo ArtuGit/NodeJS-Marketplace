@@ -322,25 +322,50 @@ exports.getEditUser = (req, res, next) => {
 
 exports.postEditUser = (req, res, next) => {
   if (req.body.userId.toString() !== req.user._id.toString()) {
+    req.flash('error', 'Forbidden');
     return res.redirect('/');
   }
   const userId = req.body.userId;
+  const email = req.body.email
   const userName = req.body.userName;
+  const password = req.body.password;
+  const newPassword = req.body.newPassword;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).render('auth/edit-user', {
       pageTitle: 'Edit User',
       path: '/user',
-      hasError: true,
       user: {
+        _id: userId,
         userName: userName,
-        _id: userId
+        email: email,
       },
       errorMessage: errors.array()[0].msg,
       validationErrors: errors.array()
     });
   }
   User.findById(userId).then(user => {
+    if (!user) {
+      req.flash('error', 'No account with that userID found.');
+      return res.redirect('/');
+    }
+    let errorMessage
+    if (email !== user.email) {
+      errorMessage = 'You cannot change the email. This is a demo.';
+    }
+    if (errorMessage) {
+      return res.status(422).render('auth/edit-user', {
+        path: '/user',
+        pageTitle: 'Edit User',
+        errorMessage: errorMessage,
+        user: {
+          _id: userId,
+          userName: userName,
+          email: user.email,
+        },
+        validationErrors: []
+      });
+    }
     user.userName = userName;
     return user.save().then(result => {
       req.session.user.userName = userName

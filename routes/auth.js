@@ -3,6 +3,7 @@ const {check, body} = require('express-validator');
 
 const authController = require('../controllers/auth');
 const User = require('../models/user');
+const isAuth = require('../middleware/is-auth');
 
 const router = express.Router();
 
@@ -78,6 +79,17 @@ router.get('/user/:userId', authController.getEditUser);
 
 router.post(
   '/edit-user',
+  [
+    body('newPassword')
+      .trim()
+      .custom((value, {req}) => {
+        if (value && !req.body.password) {
+          throw new Error('Please enter the existing password.');
+        }
+        return true;
+      })
+  ],
+  isAuth,
   authController.postEditUser
 );
 

@@ -62,6 +62,12 @@ exports.getProduct = (req, res, next) => {
 };
 
 exports.getIndex = (req, res, next) => {
+  let message = req.flash('error');
+  if (message.length > 0) {
+    message = message[0];
+  } else {
+    message = null;
+  }
   let infoMessage = req.flash('info');
   if (infoMessage.length > 0) {
     infoMessage = infoMessage[0];
@@ -91,6 +97,7 @@ exports.getIndex = (req, res, next) => {
         nextPage: page + 1,
         previousPage: page - 1,
         lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE),
+        errorMessage: message,
         infoMessage: infoMessage
       });
     })
