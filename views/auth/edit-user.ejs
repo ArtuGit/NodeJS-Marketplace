@@ -1,0 +1,55 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/forms.css">
+<link rel="stylesheet" href="/css/auth.css">
+</head>
+
+<body>
+<%- include('../includes/navigation.ejs') %>
+
+<main>
+    <% if (errorMessage) { %>
+        <div class="user-message user-message--error"><%= errorMessage %></div>
+    <% } %>
+    <form class="login-form" action="/edit-user" method="POST" novalidate>
+        <div class="form-control">
+            <label for="userName">Username</label>
+            <input
+                    class="<%= validationErrors.find(e => e.param === 'userName') ? 'invalid' : '' %>"
+                    type="text"
+                    name="userName"
+                    id="userName"
+                    value="<%= user.userName %>">
+        </div>
+        <div class="form-control">
+            <label for="email">E-Mail</label>
+            <input
+                    class="<%= validationErrors.find(e => e.param === 'email') ? 'invalid' : '' %>"
+                    type="email"
+                    name="email"
+                    id="email"
+                    value="<%= user.email %>">
+        </div>
+        <div class="form-control">
+            <label for="password">Existing password</label>
+            <input
+                    class="<%= validationErrors.find(e => e.param === 'password') ? 'invalid' : '' %>"
+                    type="password"
+                    name="password"
+                    id="password"
+                    value="<%= user.password %>">
+        </div>
+        <div class="form-control">
+            <label for="confirmPassword">New Password</label>
+            <input
+                    class="<%= validationErrors.find(e => e.param === 'confirmPassword') ? 'invalid' : '' %>"
+                    type="password"
+                    name="newPassword"
+                    id="newPassword"
+                    value="<%= user.newPassword %>">
+        </div>
+        <input type="hidden" value="<%= user._id %>" name="userId">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <button class="btn" type="submit">Update User</button>
+    </form>
+</main>
+<%- include('../includes/end.ejs') %>

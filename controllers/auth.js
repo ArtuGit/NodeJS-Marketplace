@@ -294,3 +294,63 @@ exports.postNewPassword = (req, res, next) => {
       return next(error);
     });
 };
+
+exports.getEditUser = (req, res, next) => {
+  const userId = req.params.userId
+  User.findById(userId)
+    .then(user => {
+      if (!user) {
+        return res.redirect('/');
+      }
+      user.password = ''
+      user.newPassword = ''
+      res.render('auth/edit-user', {
+        pageTitle: 'Edit User',
+        path: '/user',
+        user: user,
+        hasError: false,
+        errorMessage: null,
+        validationErrors: []
+      });
+    })
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
+};
+
+exports.postEditUser = (req, res, next) => {
+  if (req.body.userId.toString() !== req.user._id.toString()) {
+    return res.redirect('/');
+  }
+  const userId = req.body.userId;
+  const userName = req.body.userName;
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).render('auth/edit-user', {
+      pageTitle: 'Edit User',
+      path: '/user',
+      hasError: true,
+      user: {
+        userName: userName,
+        _id: userId
+      },
+      errorMessage: errors.array()[0].msg,
+      validationErrors: errors.array()
+    });
+  }
+  User.findById(userId).then(user => {
+    user.userName = userName;
+    return user.save().then(result => {
+      req.session.user.userName = userName
+      req.flash('info', `The user "${userName}" has been updated.`);
+      res.redirect('/');
+    });
+  })
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
+};
