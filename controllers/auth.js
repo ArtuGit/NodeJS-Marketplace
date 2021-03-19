@@ -80,7 +80,7 @@ exports.postLogin = (req, res, next) => {
     });
   }
 
-  User.findOne({ email: email })
+  User.findOne({email: email})
     .then(user => {
       if (!user) {
         return res.status(422).render('auth/login', {
@@ -206,7 +206,7 @@ exports.postReset = (req, res, next) => {
       return res.redirect('/reset');
     }
     const token = buffer.toString('hex');
-    User.findOne({ email: req.body.email })
+    User.findOne({email: req.body.email})
       .then(user => {
         if (!user) {
           req.flash('error', 'No account with that email found.');
@@ -240,7 +240,7 @@ exports.postReset = (req, res, next) => {
 
 exports.getNewPassword = (req, res, next) => {
   const token = req.params.token;
-  User.findOne({ resetToken: token, resetTokenExpiration: { $gt: Date.now() } })
+  User.findOne({resetToken: token, resetTokenExpiration: {$gt: Date.now()}})
     .then(user => {
       let message = req.flash('error');
       if (message.length > 0) {
@@ -271,7 +271,7 @@ exports.postNewPassword = (req, res, next) => {
 
   User.findOne({
     resetToken: passwordToken,
-    resetTokenExpiration: { $gt: Date.now() },
+    resetTokenExpiration: {$gt: Date.now()},
     _id: userId
   })
     .then(user => {
@@ -349,29 +349,49 @@ exports.postEditUser = (req, res, next) => {
       req.flash('error', 'No account with that userID found.');
       return res.redirect('/');
     }
-    let errorMessage
+    let errorMessage = ''
     if (email !== user.email) {
       errorMessage = 'You cannot change the email. This is a demo.';
     }
-    if (errorMessage) {
-      return res.status(422).render('auth/edit-user', {
-        path: '/user',
-        pageTitle: 'Edit User',
-        errorMessage: errorMessage,
-        user: {
-          _id: userId,
-          userName: userName,
-          email: user.email,
-        },
-        validationErrors: []
-      });
+    if (newPassword) {
+      bcrypt
+        .compare(password, user.password)
+        .then(doMatch => {
+          if (!doMatch) {
+            return errorMessage = 'You cannot change the email. This is a demo.';
+          } else {
+            console.log('Passwords match')
+            // req.session.isLoggedIn = true;
+            // req.session.user = user;
+            // return req.session.save(err => {
+            //   console.log(err);
+            //   res.redirect('/');
+            //});
+          }
+        })
+        .then(result => {
+          if (errorMessage) {
+            return res.status(422).render('auth/edit-user', {
+              path: '/user',
+              pageTitle: 'Edit User',
+              errorMessage: errorMessage,
+              user: {
+                _id: userId,
+                userName: userName,
+                email: user.email,
+              },
+              validationErrors: []
+            });
+          }
+        }).then(result => {
+        user.userName = userName;
+        return user.save().then(result => {
+          req.session.user.userName = userName
+          req.flash('info', `The user "${userName}" has been updated.`);
+          res.redirect('/');
+        });
+      })
     }
-    user.userName = userName;
-    return user.save().then(result => {
-      req.session.user.userName = userName
-      req.flash('info', `The user "${userName}" has been updated.`);
-      res.redirect('/');
-    });
   })
     .catch(err => {
       const error = new Error(err);
