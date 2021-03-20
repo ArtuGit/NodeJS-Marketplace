@@ -361,12 +361,12 @@ exports.postEditUser = (req, res, next) => {
             return errorMessage = 'Wrong existing password.';
           } else {
             console.log('Passwords match')
-            // req.session.isLoggedIn = true;
-            // req.session.user = user;
-            // return req.session.save(err => {
-            //   console.log(err);
-            //   res.redirect('/');
-            //});
+            if (!password) {
+              return errorMessage = 'Wrong new password.';
+            }
+            if (newPassword === password) {
+              return errorMessage = 'Passwords have to be different!';
+            }
           }
         })
         .then(result => {
@@ -382,15 +382,16 @@ exports.postEditUser = (req, res, next) => {
               },
               validationErrors: []
             });
+          } else {
+            user.userName = userName;
+            user.password = password;
+            return user.save().then(result => {
+              req.session.user = user;
+              req.flash('info', `The user "${userName}" has been updated.`);
+              res.redirect('/');
+            });
           }
-        }).then(result => {
-        user.userName = userName;
-        return user.save().then(result => {
-          req.session.user.userName = userName
-          req.flash('info', `The user "${userName}" has been updated.`);
-          res.redirect('/');
-        });
-      })
+        })
     }
   })
     .catch(err => {

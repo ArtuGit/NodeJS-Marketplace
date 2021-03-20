@@ -47,6 +47,9 @@
                     id="newPassword"
                     value="<%= user.newPassword %>">
         </div>
+        <div class="form-control">
+            <a href="/reset">Reset Password</a>
+        </div>
         <input type="hidden" value="<%= user._id %>" name="userId">
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <button class="btn" type="submit">Update User</button>
