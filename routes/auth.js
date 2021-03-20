@@ -81,13 +81,33 @@ router.post(
   '/edit-user',
   [
     body('newPassword')
-      .trim()
+      .trim(),
+    body('newPassword')
       .custom((value, {req}) => {
         if (value && !req.body.password) {
           throw new Error('Please enter the existing password.');
         }
         return true;
+      }),
+    body('newPassword')
+      .custom((value, {req}) => {
+        if (!value && req.body.password) {
+          throw new Error('Please enter a new password.');
+        }
+        return true;
+      }),
+    body(
+      'newPassword',
+      'Please enter a new password with only numbers and text and at least 5 characters.'
+    )
+      .custom((value, {req}) => {
+        if (value) {
+          return true;
+        }
       })
+      .isLength({min: 5})
+      .isAlphanumeric()
+      .trim(),
   ],
   isAuth,
   authController.postEditUser
