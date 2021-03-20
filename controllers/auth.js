@@ -358,7 +358,7 @@ exports.postEditUser = (req, res, next) => {
         .compare(password, user.password)
         .then(doMatch => {
           if (!doMatch) {
-            return errorMessage = 'You cannot change the email. This is a demo.';
+            return errorMessage = 'Wrong existing password.';
           } else {
             console.log('Passwords match')
             // req.session.isLoggedIn = true;
