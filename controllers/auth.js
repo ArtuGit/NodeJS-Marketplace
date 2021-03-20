@@ -322,8 +322,9 @@ exports.getEditUser = (req, res, next) => {
 
 exports.postEditUser = (req, res, next) => {
   if (req.body.userId.toString() !== req.user._id.toString()) {
-    req.flash('error', 'Forbidden');
-    return res.redirect('/');
+    const error = new Error();
+    error.httpStatusCode = 401;
+    return next(error);
   }
   const userId = req.body.userId;
   const email = req.body.email

@@ -101,11 +101,18 @@ app.get('/500', errorController.get500);
 app.use(errorController.get404);
 
 app.use((error, req, res, next) => {
+  console.log(error.httpStatusCode)
+  let showError = '500'
+  if (error.httpStatusCode) {
+    if ([401, 404, 500].includes(error.httpStatusCode)) {
+      showError = error.httpStatusCode.toString()
+    }
+  }
   // res.status(error.httpStatusCode).render(...);
   // res.redirect('/500');
-  res.status(500).render('500', {
+  res.status(showError).render(showError, {
     pageTitle: 'Error!',
-    path: '/500',
+    path: '/' + showError,
     isAuthenticated: req.session.isLoggedIn
   });
 });
