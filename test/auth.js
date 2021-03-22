@@ -3,6 +3,7 @@ const expect = require('chai').expect;
 const sinon = require('sinon');
 
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
 const User = require('../models/user');
 const AuthController = require('../controllers/auth');
@@ -47,6 +48,11 @@ describe('Auth controller', function () {
   });
 
   it('The login page should be rendered', function () {
+    const validationResult = (param) => {
+      return {
+        isEmpty: () => true,
+      }
+    }
     const req = {
       flash: function (type) {
         return [];
@@ -55,12 +61,33 @@ describe('Auth controller', function () {
     const res = {
       testRenderedPage: null,
       render: function (page, params) {
-        console.log('Page: ', page);
         this.testRenderedPage = page
       }
     };
     AuthController.getLogin(req, res, () => {
     });
+    expect(res.testRenderedPage).to.equal('auth/login');
+  });
+
+  it('The user with the right credentials should NOT be logged in', async () => {
+    const req = {
+      body: {
+        email: 'wrong@test.com',
+        password: 'nocheck'
+      }
+    };
+    const res = {
+      testRenderedPage: null,
+      status: function (code) {
+        return this;
+      },
+      render: function (page, params) {
+        console.log('Page: ', page);
+        this.testRenderedPage = page;
+      }
+    };
+    await AuthController.postLogin(req, res, () => {
+    })
     expect(res.testRenderedPage).to.equal('auth/login');
   });
 
