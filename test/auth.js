@@ -69,7 +69,7 @@ describe('Auth controller', function () {
     expect(res.testRenderedPage).to.equal('auth/login');
   });
 
-  it('The user with the right credentials should NOT be logged in', async () => {
+  it('The user with the WRONG credentials should NOT be logged in', async () => {
     const req = {
       body: {
         email: 'wrong@test.com',
