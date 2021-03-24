@@ -9,8 +9,33 @@
     <% if (errorMessage) { %>
         <div class="user-message user-message--error"><%= errorMessage %></div>
     <% } %>
+
+        <h2 class="header">This is a Marketplace</h2>
+
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vel urna volutpat arcu elementum rhoncus.
+            Nunc sit amet bibendum enim. Donec dui augue, sagittis ut sem nec, commodo pretium nunc. Proin vehicula
+            bibendum eros maximus placerat. Duis euismod lectus ipsum. Donec mi neque, semper ac venenatis non, blandit
+            ut tellus. Aenean cursus sollicitudin magna ut suscipit. Phasellus eu metus eget lectus consectetur rhoncus
+            id vitae sapien.</p>
+
+        <p>Phasellus id lorem ut turpis cursus pellentesque. Nulla ornare tellus in pellentesque vestibulum. Ut nec orci
+            dictum risus lacinia imperdiet eget mattis diam. Duis sed semper dui. Etiam nec efficitur nisi, ac
+            condimentum risus. In facilisis dui nulla, sed auctor sapien sodales non. In semper nibh ut arcu
+            pellentesque, quis sodales velit tincidunt. Sed vitae lacus interdum, scelerisque ipsum a, luctus ipsum.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit vehicula elementum. Proin eu erat
+            condimentum, consectetur ante fringilla, gravida leo. Mauris congue risus at sapien tincidunt, et commodo
+            ante congue. Proin molestie nunc ac est finibus tincidunt.</p>
+
+        <p>Donec imperdiet mauris erat, vehicula egestas ante tempor vel. Nam ligula lectus, consectetur ut libero sit
+            amet, rhoncus euismod est. In hac habitasse platea dictumst. Quisque tempus, neque id vulputate ultricies,
+            ante massa efficitur sem, ut maximus leo tortor a felis. Curabitur vel nulla feugiat sem semper suscipit.
+            Maecenas aliquet, urna a sodales vestibulum, libero lorem posuere massa, in tristique odio massa quis justo.
+            Nulla sit amet neque non mauris finibus congue. Sed suscipit eget diam at euismod. Sed quis eros sed ante
+            pretium blandit. Suspendisse nec laoreet lectus, vitae efficitur lorem. Integer pretium volutpat
+            commodo.</p>        
+        
     <% if (prods.length > 0) { %>
-        <div class="grid">
+        <div class="home grid">
             <% for (let product of prods) { %>
                 <article class="card product-item">
                     <header class="card__header">
