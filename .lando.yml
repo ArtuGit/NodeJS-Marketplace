@@ -1,9 +1,10 @@
-name: nodejs-shop-demo
+name: "marketplace-demo"
 recipe: mean
 config:
   node: 14
   build:
     - npm install
-  command: npm test
+  command: npm
+  globals: []
   port: '3000'
   ssl: false
