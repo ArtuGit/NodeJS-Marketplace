@@ -34,7 +34,7 @@ form {
 .main-header {
   width: 100%;
   height: 3.5rem;
-  background-color: #00695c;
+  background-color: #ee6c4d;
   padding: 0 1.5rem;
   display: flex;
   align-items: center;
@@ -75,7 +75,7 @@ form {
 .main-header__item a.active,
 .main-header__item button:hover,
 .main-header__item button:active {
-  color: #ffeb3b;
+  color: #3d5a80;
 }
 
 .mobile-nav {
@@ -126,18 +126,18 @@ form {
 .mobile-nav__item a.active,
 .mobile-nav__item button:hover,
 .mobile-nav__item button:active {
-  background: #00695c;
-  color: white;
+  background: #ee6c4d;
+  color: #e0fbfc;
   border-radius: 3px;
 }
 
 #side-menu-toggle {
-  border: 1px solid white;
+  border: 1px solid #e0fbfc;
   font: inherit;
   padding: 0.5rem;
   display: block;
   background: transparent;
-  color: white;
+  color: #e0fbfc;
   cursor: pointer;
 }
 
@@ -147,8 +147,8 @@ form {
 
 #side-menu-toggle:active,
 #side-menu-toggle:hover {
-  color: #ffeb3b;
-  border-color: #ffeb3b;
+  color: #3d5a80;
+  border-color: #3d5a80;
 }
 
 .backdrop {
@@ -211,17 +211,17 @@ form {
   padding: 0.25rem 1rem;
   text-decoration: none;
   font: inherit;
-  border: 1px solid #00695c;
-  color: #00695c;
-  background: white;
+  border: 1px solid #ee6c4d;
+  color: #ee6c4d;
+  background: #e0fbfc;
   border-radius: 3px;
   cursor: pointer;
 }
 
 .btn:hover,
 .btn:active {
-  background-color: #00695c;
-  color: white;
+  background-color: #ee6c4d;
+  color: #e0fbfc;
 }
 
 .btn.danger {
@@ -265,17 +265,17 @@ form {
 
 .pagination a {
   text-decoration: none;
-  color: #00695c;
-  padding: 0.5rem;
-  border: 1px solid #00695c;
+  color: #ee6c4d;
+  padding: 0.5rem 1rem;
+  border: 1px solid #ee6c4d;
   margin: 0 1rem;
 }
 
 .pagination a:hover,
 .pagination a:active,
 .pagination a.active {
-  background: #00695c;
-  color: white;
+  background: #ee6c4d;
+  color: #e0fbfc;
 }
 
 @media (min-width: 768px) {

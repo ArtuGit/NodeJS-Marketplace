@@ -9,3 +9,4 @@
 - Adding User Edit Page with all checking and possibility of the password changing
 - Adding 401 (Unauthorized) Error Page
 - Adding Mocha/Chai/Sinon Testing for auth and login
+- Changing colors
