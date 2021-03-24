@@ -23,6 +23,20 @@ h2.header {
   text-align: center;
 }
 
+#logo {
+  font-family: 'Train One', cursive;
+  font-size: 1.3rem;
+  line-height: 2rem;
+}
+
+#logo a,
+#logo a:hover,
+#logo a:visited,
+#logo a:active {
+  color: #293241;
+  text-decoration: none;
+}
+
 form {
   display: inline;
 }
@@ -288,6 +302,13 @@ form {
 .pagination a.active {
   background: #ee6c4d;
   color: #e0fbfc;
+}
+
+@media (max-width: 768px) {
+  #logo {
+    margin-bottom: 2rem;
+    font-size: 2rem;
+  }
 }
 
 @media (min-width: 768px) {
