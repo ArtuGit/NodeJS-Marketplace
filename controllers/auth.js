@@ -122,6 +122,7 @@ exports.postLogin = (req, res, next) => {
         });
     })
     .catch(err => {
+      console.error(err);
       const error = new Error(err);
       error.httpStatusCode = 500;
       return next(error);

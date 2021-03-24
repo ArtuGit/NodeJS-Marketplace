@@ -82,13 +82,48 @@ describe('Auth controller', function () {
         return this;
       },
       render: function (page, params) {
-        console.log('Page: ', page);
         this.testRenderedPage = page;
       }
     };
     await AuthController.postLogin(req, res, () => {
     })
     expect(res.testRenderedPage).to.equal('auth/login');
+  });
+
+  it('The user with the RIGHT credentials should be logged in', async () => {
+    sinon.stub(bcrypt, 'compare').resolves(true);
+
+    const req = {
+      body: {
+        email: 'test@test.com',
+        password: 'nocheck'
+      },
+      session: {
+        testSessionSaved: null,
+        save: function (func) {
+          this.testSessionSaved = true
+          func();
+        }
+      }
+    };
+    const res = {
+      testRenderedPage: null,
+      testRedirected: null,
+      status: function (code) {
+        return this;
+      },
+      render: function (page, params) {
+        this.testRenderedPage = page;
+      },
+      redirect: function (to) {
+        this.testRedirected = to
+      }
+    };
+    await AuthController.postLogin(req, res, () => {
+    })
+    expect(res.testRenderedPage).to.equal(null);
+    expect(req.session.testSessionSaved).to.equal(true);
+    expect(res.testRedirected).to.equal('/');
   });
 
   after(function (done) {
