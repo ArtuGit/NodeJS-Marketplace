@@ -1,4 +1,4 @@
-# NodeJS-Shop-Demo
+# NodeJS Marketplace Demo
 
 - NodeJS modules updating and testing
 - Adding H1 header for all pages
