@@ -11,3 +11,4 @@
 - Adding Mocha/Chai/Sinon Testing for auth and login
 - Changing colors
 - Adding the Home Page
+- Adding the Logo
