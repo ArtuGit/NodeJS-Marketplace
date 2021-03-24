@@ -323,6 +323,8 @@ exports.getEditUser = (req, res, next) => {
 
 exports.postEditUser = (req, res, next) => {
   if (req.body.userId.toString() !== req.user._id.toString()) {
+    console.log(1,req.body.userId.toString());
+    console.log(2,req.user._id.toString());
     const error = new Error();
     error.httpStatusCode = 401;
     return next(error);
