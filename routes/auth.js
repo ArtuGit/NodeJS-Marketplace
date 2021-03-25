@@ -96,18 +96,6 @@ router.post(
         }
         return true;
       }),
-    body(
-      'newPassword',
-      'Please enter a new password with only numbers and text and at least 5 characters.'
-    )
-      .custom((value, {req}) => {
-        if (value) {
-          return true;
-        }
-      })
-      .isLength({min: 5})
-      .isAlphanumeric()
-      .trim(),
   ],
   isAuth,
   authController.postEditUser
