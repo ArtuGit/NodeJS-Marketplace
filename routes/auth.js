@@ -96,6 +96,22 @@ router.post(
         }
         return true;
       }),
+    body('newPassword')
+      .custom((value, {req}) => {
+        if (value) {
+          let error = null;
+          if (
+                (value.length<5) ||
+                ((!value.match(/^[0-9a-z]+$/)))
+             ) {
+            error = true;
+          }
+          if (error) {
+            throw new Error('Please enter a password with only numbers and text and at least 5 characters.');
+          }
+        }
+        return true;
+      }),
   ],
   isAuth,
   authController.postEditUser
