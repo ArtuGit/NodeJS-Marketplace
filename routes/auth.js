@@ -102,7 +102,7 @@ router.post(
           let error = null;
           if (
                 (value.length<5) ||
-                ((!value.match(/^[0-9a-z]+$/)))
+                ((!value.match(/^[a-z0-9]+$/i)))
              ) {
             error = true;
           }
