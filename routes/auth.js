@@ -111,7 +111,7 @@ router.post(
           }
         }
         return true;
-      }),
+      })
   ],
   isAuth,
   authController.postEditUser
