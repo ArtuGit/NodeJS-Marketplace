@@ -21,10 +21,12 @@ exports.getProducts = (req, res, next) => {
     .then(numProducts => {
       totalItems = numProducts;
       return Product.find()
+        .populate('userId', 'userName')
         .skip((page - 1) * ITEMS_PER_PAGE)
         .limit(ITEMS_PER_PAGE);
     })
     .then(products => {
+      console.log(products);
       res.render('shop/product-list', {
         prods: products,
         pageTitle: 'Products',
@@ -47,6 +49,7 @@ exports.getProducts = (req, res, next) => {
 exports.getProduct = (req, res, next) => {
   const prodId = req.params.productId;
   Product.findById(prodId)
+    .populate('userId', 'userName')
     .then(product => {
       res.render('shop/product-detail', {
         product: product,

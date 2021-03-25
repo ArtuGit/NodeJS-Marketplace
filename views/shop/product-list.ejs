@@ -25,6 +25,10 @@
                                     <p class="product__description">
                                         <%= product.description %>
                                     </p>
+                                    <p class="user-name">
+                                        <label>Seller: </label>
+                                        <%= product.userId.userName %>
+                                    </p>
                                 </div>
                                 <div class="card__actions">
                                     <a href="/products/<%= product._id %>" class="btn">Details</a>

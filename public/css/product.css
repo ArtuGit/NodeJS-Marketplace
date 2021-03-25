@@ -23,5 +23,15 @@
 }
 
 .product__description {
+    padding-top: .5rem;
     text-align: center;
+}
+
+.user-name {
+    padding-top: 1rem;
+    text-align: center;
+}
+
+.user-name label {
+  font-weight: bold;
 }
