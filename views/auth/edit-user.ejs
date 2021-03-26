@@ -10,7 +10,7 @@
     <% if (errorMessage) { %>
         <div class="user-message user-message--error"><%= errorMessage %></div>
     <% } %>
-    <form class="login-form" action="/edit-user" method="POST" novalidate>
+    <form class="login-form" action="/edit-user/<%= input._id %>" method="POST" novalidate>
         <div class="form-control">
             <label for="userName">Username</label>
             <input
@@ -18,7 +18,7 @@
                     type="text"
                     name="userName"
                     id="userName"
-                    value="<%= user.userName %>">
+                    value="<%= input.userName %>">
         </div>
         <div class="form-control">
             <label for="email">E-Mail</label>
@@ -27,7 +27,7 @@
                     type="email"
                     name="email"
                     id="email"
-                    value="<%= user.email %>">
+                    value="<%= input.email %>">
         </div>
         <div class="form-control">
             <label for="password">Existing password</label>
@@ -36,7 +36,7 @@
                     type="password"
                     name="password"
                     id="password"
-                    value="<%= user.password %>">
+                    value="<%= input.password %>">
         </div>
         <div class="form-control">
             <label for="confirmPassword">New Password</label>
@@ -45,12 +45,12 @@
                     type="password"
                     name="newPassword"
                     id="newPassword"
-                    value="<%= user.newPassword %>">
+                    value="<%= input.newPassword %>">
         </div>
         <div class="form-control" style="margin-top: -0.7rem">
             <a href="/reset">Reset Password</a>
         </div>
-        <input type="hidden" value="<%= user._id %>" name="userId">
+        <input type="hidden" value="<%= input._id %>" name="userId">
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <button class="btn" type="submit">Update User</button>
     </form>

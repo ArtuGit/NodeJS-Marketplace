@@ -307,8 +307,8 @@ exports.getEditUser = (req, res, next) => {
       user.newPassword = ''
       res.render('auth/edit-user', {
         pageTitle: 'Edit User',
-        path: '/user',
-        user: user,
+        path: `/edit-user/${userId}`,
+        input: user,
         hasError: false,
         errorMessage: null,
         validationErrors: []
@@ -321,99 +321,76 @@ exports.getEditUser = (req, res, next) => {
     });
 };
 
-exports.postEditUser = (req, res, next) => {
-  if (req.body.userId.toString() !== req.user._id.toString()) {
-    const error = new Error();
-    error.httpStatusCode = 401;
-    return next(error);
-  }
-  const userId = req.body.userId;
-  const email = req.body.email
-  const userName = req.body.userName;
-  const password = req.body.password;
-  const newPassword = req.body.newPassword;
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(422).render('auth/edit-user', {
-      pageTitle: 'Edit User',
-      path: '/user',
-      user: {
-        _id: userId,
-        userName: userName,
-        email: email,
-      },
-      errorMessage: errors.array()[0].msg,
-      validationErrors: errors.array()
-    });
-  }
-  let user
-  let errorMessage = ''
-  User.findById(userId).then(userDB => {
-    user = userDB
-    if (!user) {
-      req.flash('error', 'No account with that userID found.');
-      return res.redirect('/');
-    }
-    if (email !== user.email) {
-      errorMessage = 'You cannot change the email. This is a demo.';
-    }
-    if (newPassword) {
-      return bcrypt
-        .compare(password, user.password)
-        .then(doMatch => {
-          if (!doMatch) {
-            errorMessage = 'Wrong existing password.';
-          } else {
-            if (!password) {
-              errorMessage = 'Wrong new password.';
-            }
-            if (newPassword === password) {
-              errorMessage = 'Passwords have to be different!';
-            }
-          }
-        })
-    }
-  })
-    .then(result => {
-      if (errorMessage) {
-        return res.status(422).render('auth/edit-user', {
-          path: '/user',
-          pageTitle: 'Edit User',
-          errorMessage: errorMessage,
-          user: {
-            _id: userId,
-            userName: userName,
-            email: user.email,
-          },
-          validationErrors: []
-        });
-      } else {
-        user.userName = userName;
-        return bcrypt
-          .hash(newPassword, 12)
-      }
-    })
-    .then(hashedPassword => {
-      user.password = hashedPassword;
-      return user.save()
-    })
-    .then(result => {
-      req.session.user = user;
-    })
-    .then(result => {
-      return req.session.save(err => {
-        if (err) {
-          console.log(err);
-        }
-      })
-    })
-    .then(result => {
-      req.flash('info', `The user "${userName}" has been updated.`);
-      res.redirect('/');
-    })
-    .catch(err => {
-      const error = new Error(err);
-      error.httpStatusCode = 500;
+exports.postEditUser = async (req, res, next) => {
+  try {
+    if (req.body.userId.toString() !== req.user._id.toString()) {
+      const error = new Error();
+      error.httpStatusCode = 401;
       return next(error);
-    });
+    }
+    const userId = req.body.userId;
+    const email = req.body.email
+    const userName = req.body.userName;
+    const password = req.body.password;
+    const newPassword = req.body.newPassword;
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).render('auth/edit-user', {
+        pageTitle: 'Edit User',
+        path: `/edit-user/${userId}`,
+        input: {
+          _id: userId,
+          userName: userName,
+          email: email,
+        },
+        errorMessage: errors.array()[0].msg,
+        validationErrors: errors.array()
+      });
+    } else {
+      let errorMessage = ''
+      let user = await User.findById(userId)
+      if (!user) {
+        req.flash('error', 'No account with that userID found.');
+        return res.redirect('/');
+      }
+      if (email !== user.email) {
+        errorMessage = 'You cannot change the email. This is a demo.';
+      }
+      if (newPassword) {
+        const passwordMatch = await bcrypt.compare(password, user.password)
+        if (!passwordMatch) {
+          errorMessage = 'Wrong existing password.';
+        } else {
+          if (!password) {
+            errorMessage = 'Wrong new password.';
+          }
+          if (newPassword === password) {
+            errorMessage = 'Passwords have to be different!';
+          }
+        }
+        if (errorMessage) {
+          return res.status(422).render('auth/edit-user', {
+            path: `/edit-user/${userId}`,
+            pageTitle: 'Edit User',
+            errorMessage: errorMessage,
+            input: {
+              _id: userId,
+              userName: userName,
+              email: user.email,
+            },
+            validationErrors: []
+          });
+        } else {
+          user.password = await bcrypt.hash(newPassword, 12);
+          await user.save();
+          req.session.user = user;
+          await req.session.save;
+          req.flash('info', `The user "${userName}" has been updated.`);
+          res.redirect('/');
+        }
+      }
+    }
+  } catch (error) {
+    console.error(error);
+  }
 };

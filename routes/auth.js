@@ -78,7 +78,7 @@ router.post('/new-password', authController.postNewPassword);
 router.get('/user/:userId', authController.getEditUser);
 
 router.post(
-  '/edit-user',
+  '/edit-user/:userId',
   [
     body('newPassword')
       .trim(),
