@@ -388,15 +388,15 @@ exports.postEditUser = async (req, res, next) => {
             },
             validationErrors: []
           });
-        } else {
-          user.password = await bcrypt.hash(newPassword, 12);
-          await user.save();
-          req.session.user = user;
-          await req.session.save;
-          req.flash('info', `The user "${userName}" has been updated.`);
-          res.redirect('/');
         }
       }
+      user.userName = userName;
+      user.password = await bcrypt.hash(newPassword, 12);
+      await user.save();
+      req.session.user = user;
+      await req.session.save;
+      req.flash('info', `The user "${userName}" has been updated.`);
+      res.redirect('/');
     }
   } catch (error) {
     console.error(error);

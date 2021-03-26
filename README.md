@@ -34,3 +34,4 @@ from ["NodeJS - The Complete Guide" course](https://www.udemy.com/course/nodejs-
 - Changing colors
 - Adding the Home Page
 - Adding the Logo
+- Adding [Lando](https://lando.dev) config
