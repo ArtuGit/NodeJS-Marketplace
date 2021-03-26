@@ -1,5 +1,26 @@
 # NodeJS Marketplace Demo
 
+## Demo
+
+https://marketplace.itcross.org
+
+## Source
+
+This project is based on the example
+from ["NodeJS - The Complete Guide" course](https://www.udemy.com/course/nodejs-the-complete-guide).
+
+### Features:
+
+- Users
+- Authentication, basic Authorization
+- Products
+- Cart
+- Orders
+- Emails
+- PDF generation
+
+## My Developments:
+
 - NodeJS modules updating and testing
 - Adding H1 header for all pages
 - Adding and testing of the working 3rd-party credentials: Stripe, SendGrid
