@@ -35,3 +35,4 @@ from ["NodeJS - The Complete Guide" course](https://www.udemy.com/course/nodejs-
 - Adding the Home Page
 - Adding the Logo
 - Adding [Lando](https://lando.dev) config
+- Managing sensitive credentials through .env file
