@@ -297,6 +297,14 @@ exports.postNewPassword = (req, res, next) => {
 };
 
 exports.getEditUser = (req, res, next) => {
+  if (
+    (typeof req.session.isLoggedIn === 'undefined') ||
+    (req.session.user._id.toString() !== req.params.userId.toString())
+  ) {
+    const error = new Error();
+    error.httpStatusCode = 401;
+    return next(error);
+  }
   const userId = req.params.userId
   User.findById(userId)
     .then(user => {

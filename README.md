@@ -6,8 +6,8 @@
 - Adding price and sum to the cart and checkout pages
 - Adding confirmatory messages for auth operations: sign up, password reset,new password
 - Adding Username to the User MVC
-- Adding "Seller" to the product pages  
-- Adding User Edit Page with all checking and possibility of the password changing
+- Adding "Seller" to the product pages
+- Adding User Edit Page with Authorization checking, verification and possibility of the password changing
 - Adding 401 (Unauthorized) Error Page
 - Adding Mocha/Chai/Sinon Testing for auth and login
 - Changing colors
