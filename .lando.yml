@@ -5,6 +5,7 @@ config:
   build:
     - npm install
   command: npm
-  globals: []
+  globals:
+    pm2: latest
   port: '3000'
   ssl: false
