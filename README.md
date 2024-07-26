@@ -1,5 +1,4 @@
-# NodeJS Marketplace Demo
-
+# NodeJS Marketplace
 ### Features:
 
 - Users
@@ -8,4 +7,4 @@
 - Cart
 - Orders
 - Emails
-- PDF generation
+- PDF Generation
